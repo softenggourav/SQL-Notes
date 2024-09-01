@@ -1,0 +1,1 @@
+My personal notes to keep all the sql commands and practice
