@@ -8,7 +8,7 @@
 
 -- we hv two tables students and courses
 
-![img_1.png](img_1.png)
+![img_1.png](images/img_1.png)
 
 -- if we need what is the name of course taken by rahul, we could use this query
 
@@ -46,4 +46,4 @@ select selected_course from students where student_fname='rahul'
 
 `select column_name(s) from tableA full outer join tableB on tableA.col_name=tableB.col_name;`
 
-![img.png](img.png)
+![img.png](images/img.png)

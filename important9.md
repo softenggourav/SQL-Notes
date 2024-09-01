@@ -2,7 +2,7 @@
 
 --issue if courses structure is below
 desc courses;
-![img_2.png](img_2.png)
+![img_2.png](images/img_2.png)
 
 -- and we try to insert this course where course_duration_months is 4.5
 insert into courses values (5,'data structure',4.5, 15000);
