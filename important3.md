@@ -1,6 +1,6 @@
 --introduce unique value
 
-create table employee(
+`create table employee(
 id int auto_increment,
 firstname varchar(20) not null,
 middlename varchar(20),
@@ -9,9 +9,10 @@ age int not null,
 salary int not null,
 location varchar(20) not null default 'bangalore',
 primary key(id)
-);
+);`
 
-insert into employee(firstname, middlename, lastname, age, salary) values ( 'kapil', 'kumar', 'sharma', 28, 10000);
+`insert into employee(firstname, middlename, lastname, age, salary) 
+values ( 'kapil', 'kumar', 'sharma', 28, 10000);`
 
 
 -- primary key
@@ -27,20 +28,20 @@ insert into employee(firstname, middlename, lastname, age, salary) values ( 'kap
 -- We can have only one primary key but multiple unique keys in a table.
 
 
-create table employee(
+`create table employee(
 firstname varchar(20) not null,
 lastname varchar(20) not null,
 age int not null,
 primary key(firstname, lastname)
-);
+);`
 
-insert into employee(id, firstname, lastname, age) values (2,'kapil', 'sharma', 30);
+`insert into employee(id, firstname, lastname, age) values (2,'kapil', 'sharma', 30);`
 
 
-create table employee(
+`create table employee(
 id int unique key,
 firstname varchar(20),
 lastname varchar(20),
 age int not null
 );
-
+`
