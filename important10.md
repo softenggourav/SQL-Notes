@@ -1,57 +1,115 @@
--- introducing not for not equal, not like
+### Using `NOT` for Filtering
 
-`select * from students where location!='bangalore';`
+**Not Equal to**:
+- **Definition**: Use `!=` or `<>` to filter rows where a column value is not equal to a specified value.
 
-`select * from courses where course_name not like '%data%';`
+**Example**:
+```sql
+SELECT * 
+FROM students 
+WHERE location != 'bangalore';
+```
 
---using and operator
+**Not Like**:
+- **Definition**: Use `NOT LIKE` to filter rows where a column value does not match a specified pattern.
 
-`select * from students where years_of_exp <8 and location='bangalore' and source_of_joining='google';`
+**Example**:
+```sql
+SELECT * 
+FROM courses 
+WHERE course_name NOT LIKE '%data%';
+```
 
---using or operator
+---
 
-`select * from students where years_of_exp<8 or years_of_exp>12;`
+### Using Logical Operators
 
---using between operator
+**AND Operator**:
+- **Definition**: Use the `AND` operator to combine multiple conditions that all must be true for a row to be included in the result.
 
-`select * from students where years_of_exp between 8 and 12;`
+**Example**:
+```sql
+SELECT * 
+FROM students 
+WHERE years_of_exp < 8 
+  AND location = 'bangalore' 
+  AND source_of_joining = 'google';
+```
 
+**OR Operator**:
+- **Definition**: Use the `OR` operator to combine multiple conditions where at least one condition must be true for a row to be included in the result.
 
--- using or operator
+**Example**:
+```sql
+SELECT * 
+FROM students 
+WHERE years_of_exp < 8 
+   OR years_of_exp > 12;
+```
 
-`select * from students where student_company='flipkart' or student_company='microsoft';`
+---
 
---using in operator
+### Using `BETWEEN` Operator
 
-`select * from students where student_company in ('flipkart','microsoft');`
+**Definition**: Use the `BETWEEN` operator to filter rows where a column value is within a specified range, inclusive of the boundary values.
 
---don't use square bracket, it will not work
+**Example**:
+```sql
+SELECT * 
+FROM students 
+WHERE years_of_exp BETWEEN 8 AND 12;
+```
 
-`select * from students where student_company in ['flipkart','microsoft'];`
+---
 
+### Using `IN` Operator
 
+**Definition**: Use the `IN` operator to filter rows where a column value matches any value in a specified list.
 
--- using case, when, then and else, end as
+**Example**:
+```sql
+SELECT * 
+FROM students 
+WHERE student_company IN ('flipkart', 'microsoft');
+```
 
-`select course_id, course_name, course_fee,
-    case
-        when course_duration_months > 4 then 'masters'
-        else 'diploma'
-    end as course_type
-from courses;`
+**Incorrect Usage**:
+- **Note**: Do not use square brackets with `IN` as it is not valid SQL syntax.
 
+**Incorrect Example**:
+```sql
+SELECT * 
+FROM students 
+WHERE student_company IN ['flipkart', 'microsoft'];
+```
 
+---
 
---using case, multiple when then else, end as
+### Using `CASE`, `WHEN`, `THEN`, `ELSE`, and `END`
 
-`select student_id, student_fname, student_lname,student_company,
-case
-    when student_company in ('google','microsoft') then 'faang'
-    when student_company in ('flipkart') then 'good product based company'
-    else 'normal company'
-end as company_type
-from students;`
+**Single `CASE` Statement**:
+- **Definition**: Use `CASE` to return different values based on conditional logic.
 
+**Example**:
+```sql
+SELECT course_id, course_name, course_fee,
+    CASE
+        WHEN course_duration_months > 4 THEN 'masters'
+        ELSE 'diploma'
+    END AS course_type
+FROM courses;
+```
 
+**Multiple `WHEN` Clauses**:
+- **Definition**: Use multiple `WHEN` clauses to handle various conditions and return different values accordingly.
 
-
+**Example**:
+```sql
+SELECT student_id, student_fname, student_lname, student_company,
+    CASE
+        WHEN student_company IN ('google', 'microsoft') THEN 'faang'
+        WHEN student_company IN ('flipkart') THEN 'good product based company'
+        ELSE 'normal company'
+    END AS company_type
+FROM students;
+```

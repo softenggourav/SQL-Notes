@@ -1,71 +1,101 @@
--- More data types --
+### Different Data Types
 
---issue if courses structure is below
-desc courses;
+**Issue with Integer Data Type**:
+- **Problem**: If a column with an `INT` data type is used to store decimal values, the system will round off the decimal portion.
+
 ![img_2.png](images/img_2.png)
 
--- and we try to insert this course where course_duration_months is 4.5
-insert into courses values (5,'data structure',4.5, 15000);
+**Example Table Structure**:
+```sql
+DESC courses;
+-- Assuming the table structure includes course_duration_months as INT
+```
 
--- it will insert month as 5, it rounds off because datatype of course_duration_months is int
--- decimal(6,2) means there would be at max 6 digits and at max 2 digits are allowed after decimal point
+**Example Insert Statement**:
+```sql
+INSERT INTO courses VALUES (5, 'data structure', 4.5, 15000);
+```
+- **Outcome**: The value `4.5` will be rounded to `5` because the column `course_duration_months` is of type `INT`.
 
+**Correct Approach with Decimal Data Type**:
+- **Definition**: Use the `DECIMAL` data type to store precise decimal values. For example, `DECIMAL(6,2)` allows for up to 6 digits in total, with 2 digits after the decimal point.
 
-`create table courses_new(
-course_id int not null,
-course_name varchar(30) not null,
-course_duration_months decimal(3,1) not null,
-course_fee int not null,
-primary key (course_id)
-);`
+**Example Table Structure**:
+```sql
+CREATE TABLE courses_new (
+    course_id INT NOT NULL,
+    course_name VARCHAR(30) NOT NULL,
+    course_duration_months DECIMAL(3,1) NOT NULL, -- Up to 3 digits, 1 after the decimal point
+    course_fee INT NOT NULL,
+    PRIMARY KEY (course_id)
+);
+```
 
-`insert into courses_new values
+**Example Insert Statement**:
+```sql
+INSERT INTO courses_new (course_id, course_name, course_duration_months, course_fee) 
+VALUES
 (1, 'big data', 6.5, 50000),
-(2,'web development', 3.5, 20000),
+(2, 'web development', 3.5, 20000),
 (3, 'data science', 6, 40000),
-(4, 'devops', 1, 10000);`
+(4, 'devops', 1, 10000);
+```
 
---if we want to keep decimal values for course_duration_months column
+---
 
-`create table courses_new(
-course_id int not null,
-course_name varchar(30) not null,
-course_duration_months decimal(3,1) not null,
-course_fee int not null,
-changed_at timestamp default now(),
-primary key (course_id)
-);`
+### Adding and Updating Timestamp Columns
 
+**Adding a Timestamp Column with Default Value**:
+- **Definition**: You can add a column with a default timestamp value to track when a record was created or updated.
 
-`insert into courses_new(course_id, course_name, course_duration_months, course_fee) values
+**Example Table Structure**:
+```sql
+CREATE TABLE courses_new (
+    course_id INT NOT NULL,
+    course_name VARCHAR(30) NOT NULL,
+    course_duration_months DECIMAL(3,1) NOT NULL,
+    course_fee INT NOT NULL,
+    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Default to current timestamp
+    PRIMARY KEY (course_id)
+);
+```
+
+**Insert Statement**:
+```sql
+INSERT INTO courses_new (course_id, course_name, course_duration_months, course_fee) 
+VALUES
 (1, 'big data', 6.5, 50000),
-(2,'web development', 3.5, 20000),
+(2, 'web development', 3.5, 20000),
 (3, 'data science', 6, 40000),
-(4, 'devops', 1, 10000);`
+(4, 'devops', 1, 10000);
+```
 
+**Updating Timestamp Column on Change**:
+- **Definition**: Use `ON UPDATE CURRENT_TIMESTAMP` to automatically update the timestamp column whenever the row is modified.
 
---when we want to add column with default as current timestamp and even when we change the value of changed_at change to current timestamp
+**Example Table Structure**:
+```sql
+CREATE TABLE courses_new (
+    course_id INT NOT NULL,
+    course_name VARCHAR(30) NOT NULL,
+    course_duration_months DECIMAL(3,1) NOT NULL,
+    course_fee INT NOT NULL,
+    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (course_id)
+);
+```
 
-`create table courses_new(
-course_id int not null,
-course_name varchar(30) not null,
-course_duration_months decimal(3,1) not null,
-course_fee int not null,
-changed_at timestamp default current_timestamp on update current_timestamp,
-primary key (course_id)
-);`
+**Alternative Using `NOW()` Function**:
+- **Definition**: `NOW()` is a function that returns the current date and time, similar to `CURRENT_TIMESTAMP`.
 
---instead of using current timestamp, we can opt for now() as well
-
-`create table courses_new(
-course_id int not null,
-course_name varchar(30) not null,
-course_duration_months decimal(3,1) not null,
-course_fee int not null,
-changed_at timestamp default now() on update now(),
-primary key (course_id)
-);`
-
-
-
-
+**Example Table Structure**:
+```sql
+CREATE TABLE courses_new (
+    course_id INT NOT NULL,
+    course_name VARCHAR(30) NOT NULL,
+    course_duration_months DECIMAL(3,1) NOT NULL,
+    course_fee INT NOT NULL,
+    changed_at TIMESTAMP DEFAULT NOW() ON UPDATE NOW(),
+    PRIMARY KEY (course_id)
+);
+```

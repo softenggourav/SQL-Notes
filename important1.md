@@ -1,46 +1,71 @@
---Notes for MySql--
+### Creating and Managing Databases in MySQL
 
---How to create database?
+#### How to Create a Database?
+To create a new database, use the following command:
+```sql
+CREATE DATABASE <database_name>;
+```
 
-`Create database <database_name>;`
+#### How to See All the Created Databases?
+To list all databases in the MySQL server:
+```sql
+SHOW DATABASES;
+```
 
---How to see all the created database;
+#### How to Select a Database for Future Operations?
+To use a specific database and make changes to it:
+```sql
+USE <database_name>;
+```
 
-`show databases;`
+#### How to Delete a Database?
+To delete an existing database:
+```sql
+DROP DATABASE <database_name>;
+```
 
---How to stick to one database and in future do changes for that database?
+---
 
-`use <database_name>;`
+### Working with Tables in MySQL
 
---How to delete a database?
+#### How to Create a Table in Any Database?
+To create a table in the selected database:
+```sql
+CREATE TABLE employee (
+    name VARCHAR(50),
+    age INT,
+    salary INT
+);
+```
+- **Note**: The `VARCHAR` data type can contain a maximum of 255 characters.
 
-`drop database <database_name>;`
+#### How to See All Tables in a Database?
+To list all tables in the currently selected database:
+```sql
+SHOW TABLES;
+```
 
---How to create a table in any database?
+#### How to See the Structure of Any Table?
+To describe the structure of a table, you can use either of the following commands:
+```sql
+DESCRIBE <table_name>;
+```
+**Or**:
+```sql
+DESC <table_name>;
+```
 
-`CREATE TABLE employee
-(
-name varchar(50),
-age int,
-salary int
-);`
+---
 
+### Database Information and Management
 
---varchar could contain at_max 255 characters only
+#### How to Check Which Database You Are In?
+To check the current selected database:
+```sql
+SELECT DATABASE();
+```
 
---How to see all the tables in a database?
-
-`show tables;`
-
---How to see the structure of any table?
-
-`describe <table_name>;`
---or--
-`desc <table_name>;`
-
---How to check in which database we are in?
- 
-`select database();`
-
- --How to unselect any database?
- there is no direct command for the same, we can either quit using 'quit' command or use another database;
+#### How to Unselect Any Database?
+There is no direct command to unselect a database. You can either:
+- Quit the MySQL session using the `quit` command, or
+- Select another database using the `USE` command.

@@ -1,100 +1,146 @@
-`create table employee(
-id int primary key,
-firstname varchar(20) not null,
-middlename varchar(20),
-lastname varchar(20) not null,
-age int not null,
-salary int not null,
-location varchar(20) not null default 'bangalore'
-);`
+### CRUD Operations in MySQL
 
-`insert into employee(id, firstname, lastname, age, salary) 
-values (1, 'kapil', 'sharma', 28, 20000);`
+#### Create (Insert Command)
 
-`insert into employee(id, firstname, lastname, age, salary) 
-values (2, 'rajesh', 'sharma', 30, 20000);`
+To create a table and insert records into it:
 
-`insert into employee(id, firstname, lastname, age, salary) 
-values (3, 'manish', 'sharma', 32, 20000);`
+```sql
+CREATE TABLE employee (
+    id INT PRIMARY KEY,
+    firstname VARCHAR(20) NOT NULL,
+    middlename VARCHAR(20),
+    lastname VARCHAR(20) NOT NULL,
+    age INT NOT NULL,
+    salary INT NOT NULL,
+    location VARCHAR(20) NOT NULL DEFAULT 'bangalore'
+);
 
---get the employees whose age is greater than 29
+INSERT INTO employee(id, firstname, lastname, age, salary) 
+VALUES (1, 'kapil', 'sharma', 28, 20000);
 
-`select * from employee where age > 29;`
+INSERT INTO employee(id, firstname, lastname, age, salary) 
+VALUES (2, 'rajesh', 'sharma', 30, 20000);
 
---select by applying a where clause (filter condition)
+INSERT INTO employee(id, firstname, lastname, age, salary) 
+VALUES (3, 'manish', 'sharma', 32, 20000);
+```
 
-`select * from employee where firstname='Manish';`
+#### Read (Select Command)
 
---by default it is case-insensitive
+To retrieve employees whose age is greater than 29:
 
--- if you want to keep case-sensitive, use binary keyword before search field
+```sql
+SELECT * FROM employee WHERE age > 29;
+```
 
-`select * from employee where binary firstname='Manish';`
+To retrieve a specific employee by name using a `WHERE` clause (filter condition):
 
---Update
+```sql
+SELECT * FROM employee WHERE firstname='Manish';
+```
 
-`update employee set lastname='sinha' where firstname='manish';`
+By default, the search is case-insensitive. If you want to make it case-sensitive, use the `BINARY` keyword:
 
---updating salary of all employee by 5000
+```sql
+SELECT * FROM employee WHERE BINARY firstname='Manish';
+```
 
-`update employee set salary=salary+5000;`
+#### Update Command
 
---updating with multiple filter
+To update a specific record, such as changing the last name of an employee:
 
-`update employee set location='bangalore' where firstname='manish' and lastname='sinha';`
+```sql
+UPDATE employee SET lastname='sinha' WHERE firstname='manish';
+```
 
+To increase the salary of all employees by 5000:
 
---Delete
+```sql
+UPDATE employee SET salary=salary+5000;
+```
 
-`delete from employee where id=3;`
+To update a record with multiple filter conditions:
 
---if we want to delete all the records, use below query
+```sql
+UPDATE employee SET location='bangalore' WHERE firstname='manish' AND lastname='sinha';
+```
 
-`delete from employee;`
+#### Delete Command
 
+To delete a specific employee record:
 
---Alter command
---this command is used to alter the schema of the table
---example of adding new column
+```sql
+DELETE FROM employee WHERE id=3;
+```
 
-`alter table employee add column jobtitle varchar(50);`
+To delete all records in the `employee` table:
 
---example of removing column
+```sql
+DELETE FROM employee;
+```
 
-`alter table employee drop column jobtitle;`
+### Alter Command in MySQL
 
---example of modifying a column
+The `ALTER` command is used to modify the schema of a table.
 
-`alter table employee modify column firstname varchar(50) not null;`
+#### Adding a New Column
 
---example of dropping the primary key
+To add a new column `jobtitle`:
 
-`alter table employee drop primary key;`
+```sql
+ALTER TABLE employee ADD COLUMN jobtitle VARCHAR(50);
+```
 
---example of adding the primary key;
+#### Removing a Column
 
-`alter table employee add primary key (id);`
+To remove the `jobtitle` column:
 
+```sql
+ALTER TABLE employee DROP COLUMN jobtitle;
+```
 
+#### Modifying a Column
 
--- DDL vs DML
+To modify the `firstname` column to increase its length:
 
---DDL - Data definition language - deals with table structure
--- create, alter, drop, truncate - DDL commands
+```sql
+ALTER TABLE employee MODIFY COLUMN firstname VARCHAR(50) NOT NULL;
+```
 
---DML - Data manipulation language - here we deal with the data directly
---insert, update, delete - DML commands
+#### Dropping the Primary Key
 
+To drop the primary key from the `employee` table:
 
--- Truncate
--- it also removes all the records but internally it drops the table and recreates it. That's why it is not DML, it's DDL
-truncate table employee;
+```sql
+ALTER TABLE employee DROP PRIMARY KEY;
+```
 
+#### Adding a Primary Key
 
+To add a primary key to the `id` column:
 
+```sql
+ALTER TABLE employee ADD PRIMARY KEY (id);
+```
 
+### DDL vs DML
 
+#### DDL (Data Definition Language)
 
+- **DDL** commands deal with the structure of the table, not the data itself.
+- Examples: `CREATE`, `ALTER`, `DROP`, `TRUNCATE`.
 
+#### DML (Data Manipulation Language)
 
+- **DML** commands deal directly with the data within the table.
+- Examples: `INSERT`, `UPDATE`, `DELETE`.
 
+### Truncate Command
+
+The `TRUNCATE` command is used to remove all records from a table:
+
+```sql
+TRUNCATE TABLE employee;
+```
+
+- Unlike `DELETE`, `TRUNCATE` drops the table and recreates it, making it a DDL command rather than a DML command.

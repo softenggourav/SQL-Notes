@@ -1,51 +1,121 @@
---count function
+### COUNT Function
+- **Definition**: The `COUNT` function in SQL returns the number of rows that match a specified condition.
 
---number of students in students table
+**Count of All Rows**:
+```sql
+SELECT COUNT(*) 
+FROM students;
+```
 
-`select count(*) from students;`
+**Distinct Count**:
+- **Purpose**: To get the count of unique values in a column.
 
+```sql
+SELECT COUNT(DISTINCT student_company) 
+FROM students;
+```
 
---get distinct count of number of student_company from students table
+**Count of Students by Batch Date Starting in February**:
+```sql
+SELECT * 
+FROM students 
+WHERE batch_date LIKE '%-02-%';
 
-`select count(distinct student_company) from students;`
+SELECT COUNT(*) 
+FROM students 
+WHERE batch_date LIKE '%-02-%';
+```
 
+**Count of Students with Batch Date Starting from the 19th Day**:
+```sql
+SELECT * 
+FROM students 
+WHERE batch_date LIKE '19-__-____';
 
---get all the students whose batch_date is starting in the month 02
+SELECT COUNT(*) 
+FROM students 
+WHERE batch_date LIKE '19-__-____';
+```
 
-`select * from students where batch_date like '%-02-%';`
+---
 
-`select count(*) from students where batch_date like '%-02-%';`
+### GROUP BY
+- **Definition**: The `GROUP BY` clause groups rows that have the same values into summary rows, like "total sales" or "number of students."
 
---get all the students whose batch_date is starting from 19th day
+**Count of Students by Source of Joining**:
+```sql
+SELECT source_of_joining, COUNT(*) 
+FROM students 
+GROUP BY source_of_joining;
+```
 
-`select * from students where batch_data like '19-__-____';`
+**Invalid Query Example**:
+- **Reason**: Grouping by `location` instead of `source_of_joining` would be invalid if filtering is not aligned with the grouping.
 
-`select count(*) from students where batch_data like '19-__-____';`
+```sql
+SELECT source_of_joining, COUNT(*) 
+FROM students 
+GROUP BY location;
+```
 
---group by
--- get all the source of joining with their counts
+**Composite Grouping**:
+- **Definition**: Groups by multiple columns.
 
-`select source_of_joining, count(*) from students group by source_of_joining;`
+**Count of Students by Student Company and Source of Joining**:
+```sql
+SELECT student_company, source_of_joining, COUNT(*) 
+FROM students 
+GROUP BY student_company, source_of_joining;
+```
 
---below query wont work because of same reason that whatever filter we apply should present on other side of views as well
+**Count of Students by Source of Joining and Location**:
+```sql
+SELECT source_of_joining, location, COUNT(*) 
+FROM students 
+GROUP BY source_of_joining, location;
+```
 
-`select source_of_joining, count(*) from students group by location;`
+---
 
--- composite grouping
-`select student_company, source_of_joining, count(*) from students group by student_company, source_of_joining;`
+### MIN & MAX Functions
+- **Definition**: The `MIN` and `MAX` functions return the smallest and largest values in a column, respectively.
 
-`select source_of_joining, location, count(*) from students group by source_of_joining, location;`
+**Minimum Years of Experience**:
+```sql
+SELECT MIN(years_of_exp) 
+FROM students;
+```
 
+**Maximum Years of Experience**:
+```sql
+SELECT MAX(years_of_exp) 
+FROM students;
+```
 
---MIN & MAX
-`select MIN(years_of_exp) from students;`
+**Average Years of Experience**:
+```sql
+SELECT AVG(years_of_exp) 
+FROM students;
+```
 
-`select MAX(years_of_exp) from students;`
+**Grouped by Source of Joining**:
+- **Minimum Years of Experience**:
+```sql
+SELECT source_of_joining, MIN(years_of_exp) 
+FROM students 
+GROUP BY source_of_joining;
+```
 
-`select AVG(years_of_exp) from students;`
+- **Maximum Years of Experience**:
+```sql
+SELECT source_of_joining, MAX(years_of_exp) 
+FROM students 
+GROUP BY source_of_joining;
+```
 
-`select source_of_joining, MIN(years_of_exp) from students group by source_of_joining;`
-
-`select source_of_joining, MAX(years_of_exp) from students group by source_of_joining;`
-
-`select source_of_joining, AVG(years_of_exp) from students group by source_of_joining;`
+- **Average Years of Experience**:
+```sql
+SELECT source_of_joining, AVG(years_of_exp) 
+FROM students 
+GROUP BY source_of_joining;
+```

@@ -1,37 +1,70 @@
--- self join
--- A self join is a regular join in which a table is joined to itself
--- Self joins are powerful for comparing values in a column of rows with the same table
+### Self Join
+- **Definition**: A self join is a regular join where a table is joined with itself.
+- **Purpose**: Self joins are powerful for comparing values in different rows within the same table.
 
-`select column_name(s) from table as T1 JOIN table as T2 on T1.col_name=T2.col_name;`
-
+**Syntax**:
+```sql
+SELECT column_name(s) 
+FROM table AS T1 
+JOIN table AS T2 ON T1.col_name = T2.col_name;
+```
 ![img.png](images/img_3.png)
 
-`select T1.empName, T2.empName from emp as T1 join emp as T2 on T1.manager_id=T2.empid;` 
+**Example**:
+```sql
+SELECT T1.empName, T2.empName 
+FROM emp AS T1 
+JOIN emp AS T2 ON T1.manager_id = T2.empid;
+```
 
+---
 
--- union
--- The sql union clause/operator is used to combine/concatenate the results of two or more select statements without 
--- returning any duplicate rows and keep unique records
+### Union
+- **Definition**: The SQL `UNION` clause/operator is used to combine or concatenate the results of two or more `SELECT` statements, ensuring no duplicate rows are returned.
+- **Requirements**:
+    - Each `SELECT` statement must have the same number of columns.
+    - The data types of the columns must match.
+    - The columns must be in the same order.
 
--- To use the union clause, each select statement must have 
-    - the same number of columns selected and expressions
-    - the same data type
-    - have them in the same order
+**Syntax**:
+```sql
+SELECT column_name(s) 
+FROM tableA 
+UNION 
+SELECT column_name(s) 
+FROM tableB;
+```
 
-`select column_name(s) from tableA union select column_name(s) from tableB;`
+**Example**:
+```sql
+SELECT cust_name, cust_amount 
+FROM custA 
+UNION 
+SELECT cust_name, cust_amount 
+FROM custB;
+```
 
--- Example
+---
 
-`select cust_name, cust_amount from custA union select cust_name, cust_amount from custB;`
+### Union All
+- **Definition**: Similar to `UNION`, the `UNION ALL` operator combines the results of two or more `SELECT` statements. However, unlike `UNION`, `UNION ALL` does not remove duplicate rows.
+- **Usage**: Use `UNION ALL` when you want to keep all records, including duplicates.
 
+**Syntax**:
+```sql
+SELECT column_name(s) 
+FROM tableA 
+UNION ALL 
+SELECT column_name(s) 
+FROM tableB;
+```
 
--- union all
--- In union all, everything is same as union, it combines/concatenate two or more table but keeps all records, 
--- including duplicates
-
-`select column_name(s) from tableA union all select column_name(s) from tableB;`
-
--- Example
-
-`select cust_name, cust_amount from custA union all select cust_name, cust_amount from custB;`
+**Example**:
+```sql
+SELECT cust_name, cust_amount 
+FROM custA 
+UNION ALL 
+SELECT cust_name, cust_amount 
+FROM custB;
+```
 

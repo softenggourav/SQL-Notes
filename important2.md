@@ -1,83 +1,148 @@
---CRUD operations
---create - 'insert' command
---read - 'select' command
---update - 'update' command
---delete - 'drop' command
+### CRUD Operations in MySQL
 
---How to create a table in any database?
+CRUD stands for **Create**, **Read**, **Update**, and **Delete**—the four basic functions of persistent storage.
 
-`CREATE TABLE employee
-(
-name varchar(50),
-age int,
-salary int
-);`
+#### 1. Create
+- **Command**: `INSERT`
+- **Purpose**: Used to add new records to a table.
 
-`create table employee(
-firstname varchar(20),
-middlename varchar(20),
-lastname varchar(20),
-age int,
-salary int,
-location varchar(20)
-);`
+#### 2. Read
+- **Command**: `SELECT`
+- **Purpose**: Used to retrieve data from a table.
 
+#### 3. Update
+- **Command**: `UPDATE`
+- **Purpose**: Used to modify existing records in a table.
 
--- How to insert value in table?
+#### 4. Delete
+- **Command**: `DELETE` (Note: `DROP` is used to delete tables or databases, not individual records)
+- **Purpose**: Used to remove records from a table.
 
-`insert into employee values ('satish', 'kumar', 'sharma', 28, 10000, 'bangalore');`
+---
 
--- It's recommended to give column name as well but it's not necessary
+### Creating a Table
 
-`insert into employee(firstname, middlename, lastname, age, salary, location) values ('kapil', 'kumar', 'sharma', 28, 10000, 'bangalore');`
+To create a table in any database:
 
+```sql
+CREATE TABLE employee (
+    name VARCHAR(50),
+    age INT,
+    salary INT
+);
+```
 
-`insert into employee(firstname, lastname, age, salary, location) values ("rajes'h", 'sharma', 32, 20000, 'bangalore');`
+Or with more columns:
 
-`insert into employee(firstname, lastname, age, salary, location) values ('rajes"h', 'sharma', 32, 20000, 'bangalore');`
+```sql
+CREATE TABLE employee (
+    firstname VARCHAR(20),
+    middlename VARCHAR(20),
+    lastname VARCHAR(20),
+    age INT,
+    salary INT,
+    location VARCHAR(20)
+);
+```
 
-`insert into employee(firstname, lastname, age, salary, location) values ('rajes/'h', 'sharma', 32, 20000, 'bangalore');`
+---
 
---All above three statements will work;
+### Inserting Values into a Table
 
-`insert into employee(firstname, middlename, lastname, age, salary, location) values ('kapil', 'kumar', 'sharma', '20', 10000, 'bangalore');`
+To insert a value into the `employee` table:
 
+```sql
+INSERT INTO employee 
+VALUES ('satish', 'kumar', 'sharma', 28, 10000, 'bangalore');
+```
 
---NULL and NOT NULL
+It is recommended, though not necessary, to specify the column names:
 
-`create table employee(
-firstname varchar(20) not null,
-middlename varchar(20),
-lastname varchar(20) not null,
-age int not null,
-salary int not null,
-location varchar(20) not null
-);`
+```sql
+INSERT INTO employee (firstname, middlename, lastname, age, salary, location) 
+VALUES ('kapil', 'kumar', 'sharma', 28, 10000, 'bangalore');
+```
 
-`insert into employee( middlename, lastname, age, salary, location) values ( 'kumar', 'sharma', '20', 10000, 'bangalore');`
+You can insert values without some columns:
 
+```sql
+INSERT INTO employee (firstname, lastname, age, salary, location) 
+VALUES ('rajes\'h', 'sharma', 32, 20000, 'bangalore');
+```
 
--- Default values
+Or handle quotes differently:
 
-`create table employee(
-firstname varchar(20) not null,
-middlename varchar(20),
-lastname varchar(20) not null,
-age int not null,
-salary int not null,
-location varchar(20) default 'bangalore'
-);`
+```sql
+INSERT INTO employee (firstname, lastname, age, salary, location) 
+VALUES ('rajes"h', 'sharma', 32, 20000, 'bangalore');
 
-`insert into employee(firstname, lastname, age, salary, location) values ('kapil', 'sharma', 28, 10000, null);`
+INSERT INTO employee (firstname, lastname, age, salary, location) 
+VALUES ('rajes/h', 'sharma', 32, 20000, 'bangalore');
+```
 
-`create table employee(
-firstname varchar(20) not null,
-middlename varchar(20),
-lastname varchar(20) not null,
-age int not null,
-salary int not null,
-location varchar(20) not null default 'bangalore'
-);`
---below query will throw error because location can't be null
+All the above statements will work.
 
-`insert into employee(firstname, lastname, age, salary, location) values ('kapil', 'sharma', 28, 10000, null);`
+---
+
+### NULL and NOT NULL Constraints
+
+To create a table with `NOT NULL` constraints:
+
+```sql
+CREATE TABLE employee (
+    firstname VARCHAR(20) NOT NULL,
+    middlename VARCHAR(20),
+    lastname VARCHAR(20) NOT NULL,
+    age INT NOT NULL,
+    salary INT NOT NULL,
+    location VARCHAR(20) NOT NULL
+);
+```
+
+Inserting values without the `NOT NULL` columns will work:
+
+```sql
+INSERT INTO employee (middlename, lastname, age, salary, location) 
+VALUES ('kumar', 'sharma', 20, 10000, 'bangalore');
+```
+
+---
+
+### Default Values
+
+To set default values for columns:
+
+```sql
+CREATE TABLE employee (
+    firstname VARCHAR(20) NOT NULL,
+    middlename VARCHAR(20),
+    lastname VARCHAR(20) NOT NULL,
+    age INT NOT NULL,
+    salary INT NOT NULL,
+    location VARCHAR(20) DEFAULT 'bangalore'
+);
+```
+
+Inserting a `NULL` value into a column with a default value will insert the default:
+
+```sql
+INSERT INTO employee (firstname, lastname, age, salary, location) 
+VALUES ('kapil', 'sharma', 28, 10000, NULL);
+```
+
+If `NOT NULL` is enforced, trying to insert a `NULL` value will throw an error:
+
+```sql
+CREATE TABLE employee (
+    firstname VARCHAR(20) NOT NULL,
+    middlename VARCHAR(20),
+    lastname VARCHAR(20) NOT NULL,
+    age INT NOT NULL,
+    salary INT NOT NULL,
+    location VARCHAR(20) NOT NULL DEFAULT 'bangalore'
+);
+
+-- The following query will throw an error because 'location' cannot be NULL:
+INSERT INTO employee (firstname, lastname, age, salary, location) 
+VALUES ('kapil', 'sharma', 28, 10000, NULL);
+```

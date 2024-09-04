@@ -1,152 +1,95 @@
---Foreign Key constraint
+### Foreign Key Constraint in MySQL
 
-`create table students(
-student_id int auto_increment,
-student_fname varchar(30) not null,
-student_lname varchar(30) not null,
-student_mname varchar(30),
-student_email varchar(30) not null,
-student_phone varchar(15) not null,
-student_alternate_phone varchar(15),
-enrollment_date timestamp not null default current_timestamp,
-years_of_exp int,
-student_company varchar(30),
-batch_date varchar(30) not null,
-source_of_joining varchar(30) not null,
-location varchar(30) not null,
-primary key (student_id),
-unique key (student_email)
-);`
+#### Overview
 
-`insert into students(student_fname, student_lname, student_email, student_phone, years_of_exp, batch_date, source_of_joining, location)
-values ('rohit', 'sharma', 'rohit@gmail.com', '9191919191', 6, '5-02-2021', 'linkedin', 'bangalore');`
+A **Foreign Key** is a field in one table that uniquely identifies a row in another table. This key establishes a relationship between two tables by linking the foreign key in the child table to the primary key in the parent table. The purpose of a foreign key is to ensure referential integrity between the tables.
 
-`insert into students(student_fname, student_lname, student_email, student_phone, years_of_exp,student_company, batch_date, source_of_joining, location)
-values ('virat', 'kohli', 'virat@gmail.com', '9292929292', 6, 'flipkart', '5-02-2021', 'linkedin', 'hyderabad');`
+- **Parent Table**: The table with the primary key that the foreign key references.
+- **Child Table**: The table that contains the foreign key.
 
-`insert into students(student_fname, student_lname, student_email, student_phone, years_of_exp, batch_date, source_of_joining, location)
-values ('shikhar', 'dhawan', 'shikhar@gmail.com', '9393939393', 6, '5-02-2021', 'google', 'bangalore');`
+#### Example Schema
 
-`insert into students(student_fname, student_lname, student_email, student_phone, years_of_exp, batch_date, source_of_joining, location)
-values ('rahul', 'dravid', 'rahul@gmail.com', '9494949494', 8, '5-02-2021', 'quora', 'chennai');`
+**Courses Table (Parent Table)**:
 
-`insert into students(student_fname, student_lname, student_email, student_phone, years_of_exp,student_company, batch_date, source_of_joining, location)
-values ('kapil', 'dev', 'kapil@gmail.com', '9595959595', 15, 'microsoft', '5-02-2021', 'friend', 'pune');`
+```sql
+CREATE TABLE courses (
+    course_id INT NOT NULL,
+    course_name VARCHAR(30) NOT NULL,
+    course_duration_months INT NOT NULL,
+    course_fee INT NOT NULL,
+    PRIMARY KEY (course_id)
+);
+```
 
+**Students Table (Child Table)**:
 
+```sql
+CREATE TABLE students (
+    student_id INT AUTO_INCREMENT,
+    student_fname VARCHAR(30) NOT NULL,
+    student_lname VARCHAR(30) NOT NULL,
+    student_mname VARCHAR(30),
+    student_email VARCHAR(30) NOT NULL,
+    student_phone VARCHAR(15) NOT NULL,
+    student_alternate_phone VARCHAR(15),
+    enrollment_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    selected_course INT NOT NULL DEFAULT 1,
+    years_of_exp INT,
+    student_company VARCHAR(30),
+    batch_date VARCHAR(30) NOT NULL,
+    source_of_joining VARCHAR(30) NOT NULL,
+    location VARCHAR(30) NOT NULL,
+    PRIMARY KEY (student_id),
+    UNIQUE KEY (student_email),
+    FOREIGN KEY (selected_course) REFERENCES courses(course_id)
+);
+```
 
-`create table courses(
-course_id int not null,
-course_name varchar(30) not null,
-course_duration_months int not null,
-course_fee int not null,
-primary key (course_id)
-);`
+#### Explanation of the `students` Table
 
+- **`selected_course`**: This column is a foreign key that references the `course_id` column in the `courses` table. It ensures that any value in `selected_course` must exist in the `course_id` column of the `courses` table.
 
-`insert into courses values
+#### Inserting Data into the Tables
+
+**Inserting Courses**:
+
+```sql
+INSERT INTO courses (course_id, course_name, course_duration_months, course_fee) VALUES
 (1, 'big data', 6, 50000),
-(2,'web development', 3, 20000),
+(2, 'web development', 3, 20000),
 (3, 'data science', 6, 40000),
-(4, 'devops', 1, 10000);`
+(4, 'devops', 1, 10000);
+```
 
+**Inserting Students**:
 
-`create table students(
-student_id int auto_increment,
-student_fname varchar(30) not null,
-student_lname varchar(30) not null,
-student_mname varchar(30),
-student_email varchar(30) not null,
-student_phone varchar(15) not null,
-student_alternate_phone varchar(15),
-enrollment_date timestamp not null default current_timestamp,
-selected_course int not null default 1,
-years_of_exp int,
-student_company varchar(30),
-batch_date varchar(30) not null,
-source_of_joining varchar(30) not null,
-location varchar(30) not null,
-primary key (student_id),
-unique key (student_email)
-);`
+```sql
+INSERT INTO students(student_fname, student_lname, student_email, student_phone, selected_course, years_of_exp, student_company, batch_date, source_of_joining, location)
+VALUES ('rohit', 'sharma', 'rohit@gmail.com', '9191919191', 4, 6, 'flipkart', '5-02-2021', 'linkedin', 'bangalore');
 
+INSERT INTO students(student_fname, student_lname, student_email, student_phone, selected_course, years_of_exp, student_company, batch_date, source_of_joining, location)
+VALUES ('shikhar', 'dhawan', 'shikhar@gmail.com', '9393939393', 2, 6, 'google', '5-02-2021', 'linkedin', 'bangalore');
 
-`insert into students(student_fname, student_lname, student_email, student_phone,selected_course,  years_of_exp, batch_date, source_of_joining, location)
-values ('rohit', 'sharma', 'rohit@gmail.com', '9191919191',4,  6, '5-02-2021', 'linkedin', 'bangalore');`
+INSERT INTO students(student_fname, student_lname, student_email, student_phone, selected_course, years_of_exp, student_company, batch_date, source_of_joining, location)
+VALUES ('rahul', 'dravid', 'rahul@gmail.com', '9494949494', 3, 8, 'quora', '5-02-2021', 'linkedin', 'chennai');
+```
 
-`insert into students(student_fname, student_lname, student_email, student_phone, years_of_exp,student_company, batch_date, source_of_joining, location)
-values ('virat', 'kohli', 'virat@gmail.com', '9292929292', 6, 'flipkart', '5-02-2021', 'linkedin', 'hyderabad');`
+#### Understanding Foreign Key Constraints
 
-`insert into students(student_fname, student_lname, student_email, student_phone, selected_course, years_of_exp, batch_date, source_of_joining, location)
-values ('shikhar', 'dhawan', 'shikhar@gmail.com', '9393939393', 2, 6, '5-02-2021', 'google', 'bangalore');`
+- **Referential Integrity**: The foreign key constraint prevents actions that would destroy the link between the tables. For example, you cannot insert a `selected_course` in the `students` table that does not exist in the `course_id` of the `courses` table.
 
-`insert into students(student_fname, student_lname, student_email, student_phone, selected_course, years_of_exp, batch_date, source_of_joining, location)
-values ('rahul', 'dravid', 'rahul@gmail.com', '9494949494', 3, 8, '5-02-2021', 'quora', 'chennai');`
+- **Cascade Operations**: If required, you can also define **cascade** operations for `DELETE` or `UPDATE` actions. This means that when a record in the parent table is deleted or updated, the corresponding records in the child table are also deleted or updated.
 
-`insert into students(student_fname, student_lname, student_email, student_phone, years_of_exp,student_company, batch_date, source_of_joining, location)
-values ('kapil', 'dev', 'kapil@gmail.com', '9595959595', 15, 'microsoft', '5-02-2021', 'friend', 'pune');`
+#### Summary
 
+- **Foreign Key**: Ensures referential integrity by linking a column in one table to the primary key of another table.
+- **Parent Table**: The table that holds the primary key (e.g., `courses`).
+- **Child Table**: The table that holds the foreign key (e.g., `students`).
 
-`create table students(
-student_id int auto_increment,
-student_fname varchar(30) not null,
-student_lname varchar(30) not null,
-student_mname varchar(30),
-student_email varchar(30) not null,
-student_phone varchar(15) not null,
-student_alternate_phone varchar(15),
-enrollment_date timestamp not null default current_timestamp,
-selected_course int not null default 1,
-years_of_exp int,
-student_company varchar(30),
-batch_date varchar(30) not null,
-source_of_joining varchar(30) not null,
-location varchar(30) not null,
-primary key (student_id),
-unique key (student_email),
-foreign key (selected_course) references courses(course_id)
-);`
+#### SQL Constraints Recap
 
-
-`insert into students(student_fname, student_lname, student_email, student_phone, selected_course, years_of_exp,student_company, batch_date, source_of_joining, location)
-values ('sourav', 'ganguly', 'sourav@gmail.com', '9696969696', 8, 15, 'adobe', '5-02-2021', 'friend', 'kolkata');`
-
-
---foreign key constraint
---It is used to prevent actions that would destroy links between two tables.
---Foreign key is a field in one table which refers to the primary key in another table.
---selected_course is a foreign key in students table which refers to course_id (primary key) in courses table.
-
-
---the table with the foreign key is called the child table.
---the table with the child key is called the parent or referenced table.
-
--- constraints are used to limit the type of data that go into a table. if there is any violation in constraint, then the action is aborted.
--- constraint available:,
--- not null
--- primary key
--- unique key
--- foreign key
--- check constraint (not supported in mysql)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- **NOT NULL**: Ensures that a column cannot have a NULL value.
+- **PRIMARY KEY**: Uniquely identifies each record in a table.
+- **UNIQUE KEY**: Ensures all values in a column are different.
+- **FOREIGN KEY**: Ensures referential integrity between two tables.
+- **CHECK Constraint**: Validates that the values in a column meet a specific condition (Note: Not supported in MySQL).

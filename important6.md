@@ -1,54 +1,101 @@
---DISTINCT
+### SQL Operations and Queries
 
-`select distinct student_company from students;`
+#### 1. **DISTINCT**
 
--- order by
+The `DISTINCT` keyword is used to remove duplicate values in a query result.
 
-`select student_fname, years_of_exp from students order by years_of_exp;`
+**Example**:
 
-`select student_fname, years_of_exp from students order by 2;`
+```sql
+SELECT DISTINCT student_company FROM students;
+```
 
---above both command give same result
+This query retrieves unique values from the `student_company` column in the `students` table.
 
-`select student_fname, years_of_exp from students order by years_of_exp desc;`
+#### 2. **ORDER BY**
 
---above command give result in reverse order
+The `ORDER BY` clause is used to sort the result set of a query by one or more columns.
 
---order by years of exp and if years of exp is same, order by student first name
+**Sorting in Ascending Order** (default):
 
-`select student_fname, years_of_exp from students order by years_of_exp, student_fname;`
+```sql
+SELECT student_fname, years_of_exp FROM students ORDER BY years_of_exp;
+```
 
---order by years of exp and if years of exp is same, reverse order by student first name
+**Sorting in Descending Order**:
 
-`select student_fname, years_of_exp from students order by years_of_exp, student_fname desc;`
+```sql
+SELECT student_fname, years_of_exp FROM students ORDER BY years_of_exp DESC;
+```
 
+**Sorting by Column Position**:
 
--- this query wont work
+```sql
+SELECT student_fname, years_of_exp FROM students ORDER BY 2;
+```
 
-`select distinct source_of_joining from students order by enrollment_date desc limit 2;`
+In this example, `2` refers to the second column in the `SELECT` clause.
 
--- this query will return students in reverse order of enrollment date and from 3rd row, it will give 5 rows
+**Sorting by Multiple Columns**:
 
-`select * from students order by enrollment_date desc limit 2,5;`
+- **Primary Sort by `years_of_exp` and Secondary Sort by `student_fname`**:
 
+    ```sql
+    SELECT student_fname, years_of_exp FROM students ORDER BY years_of_exp, student_fname;
+    ```
 
---get all the students whose firstname contains 7 character
+- **Primary Sort by `years_of_exp` and Secondary Sort by `student_fname` in Descending Order**:
 
-`select * from students where student_fname like '_______';
-`
--- get all the students whose firstname ends with 'at'
+    ```sql
+    SELECT student_fname, years_of_exp FROM students ORDER BY years_of_exp, student_fname DESC;
+    ```
 
-`select * from students where student_fname like '%at';`
+#### 3. **LIMIT and OFFSET**
 
--- get all the students whose firstname starts with 'ra'
+- **Limit and Offset Example**:
 
-`select * from students where student_fname like 'ra%';`
+    ```sql
+    SELECT * FROM students ORDER BY enrollment_date DESC LIMIT 2, 5;
+    ```
 
--- get all the students whose firstname contains with 'ra'
+    - `LIMIT 2, 5` will skip the first 2 rows and return the next 5 rows from the result set.
 
-`select * from students where student_fname like '%ra%';`
+- **Invalid Query with `DISTINCT` and `ORDER BY`**:
 
+    ```sql
+    SELECT DISTINCT source_of_joining FROM students ORDER BY enrollment_date DESC LIMIT 2;
+    ```
 
+  This query is invalid because `DISTINCT` cannot be used with `ORDER BY` in this way. Instead, use `DISTINCT` in conjunction with appropriate sorting and limit in different queries.
 
+#### 4. **Pattern Matching with LIKE**
 
+The `LIKE` operator is used to search for a specified pattern in a column.
 
+- **Find First Names with Exactly 7 Characters**:
+
+    ```sql
+    SELECT * FROM students WHERE student_fname LIKE '_______';
+    ```
+
+  The underscore (`_`) represents a single character.
+
+- **Find First Names Ending with 'at'**:
+
+    ```sql
+    SELECT * FROM students WHERE student_fname LIKE '%at';
+    ```
+
+  The percent sign (`%`) represents zero or more characters.
+
+- **Find First Names Starting with 'ra'**:
+
+    ```sql
+    SELECT * FROM students WHERE student_fname LIKE 'ra%';
+    ```
+
+- **Find First Names Containing 'ra'**:
+
+    ```sql
+    SELECT * FROM students WHERE student_fname LIKE '%ra%';
+    ```
