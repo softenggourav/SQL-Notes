@@ -74,10 +74,41 @@ There is no direct command to unselect a database. You can either:
 ### Creating user and granting access in MySQL
 
 #### How to Create a User?
-To create a new user, use the following command:
-```sql
+To create a new user in Postgres, use the following command:
+```postgresql
 CREATE USER <user_name> WITH PASSWORD <password>;
 ```
+To create a new user in MySQL, use the following command:
+```sql
+CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
+```
+
+1. `CREATE USER`
+This is the SQL command to create a new user in the database. It's followed by the user's credentials and connection details.
+
+2. `'username'@'localhost'`
+   - `'username'`: This is the name of the new database user being created. You can replace `'username'` with any valid identifier for the user.
+   - `'localhost'`: This specifies the **host** from which the user can connect to the database.
+   - `'localhost'` means the user can only connect from the machine where the MySQL server is running.
+     - If you want the user to connect from any machine, you can replace `'localhost'` with `'%'`. Example: `'username'@'%'`.
+     - You can also specify a specific IP address or domain to allow the user to connect only from that address.
+
+3. `IDENTIFIED BY 'password'`
+This specifies the **password** that the user must use when connecting to the database.
+   - `'password'`: This is the string representing the password for the user. It should be replaced with the actual password you want to set for the user.
+
+Example:
+
+If you run:
+
+```sql
+CREATE USER 'john_doe'@'localhost' IDENTIFIED BY 'SecurePassword123';
+```
+  - A new user `john_doe` is created.
+  - This user can only log in from the local machine (where the MySQL server is running).
+  - The user will need to use the password `SecurePassword123` to authenticate.
+
+Once the user is created, they have no permissions by default. You need to grant them appropriate privileges using the `GRANT` statement.
 
 #### How to Grant privileges to a User?
 To grant all the privilege to a user, use the following command:
@@ -94,4 +125,10 @@ GRANT SELECT, INSERT, UPDATE ON TABLE tablename TO username;
 To revoke all the privileges from a user, use the following command:
 ```sql
 REVOKE ALL PRIVILEGES ON DATABASE dbname FROM username;
+```
+
+#### Flush Privileges: 
+After granting or revoking permissions, it's good practice to reload the privileges.
+```sql
+FLUSH PRIVILEGES;
 ```
