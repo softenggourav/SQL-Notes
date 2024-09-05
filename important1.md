@@ -69,3 +69,29 @@ SELECT DATABASE();
 There is no direct command to unselect a database. You can either:
 - Quit the MySQL session using the `quit` command, or
 - Select another database using the `USE` command.
+
+
+### Creating user and granting access in MySQL
+
+#### How to Create a User?
+To create a new user, use the following command:
+```sql
+CREATE USER <user_name> WITH PASSWORD <password>;
+```
+
+#### How to Grant privileges to a User?
+To grant all the privilege to a user, use the following command:
+```sql
+GRANT ALL PRIVILEGES ON DATABASE dbname TO username;
+```
+
+To grant specific privilege to a user on a table:
+```sql
+GRANT SELECT, INSERT, UPDATE ON TABLE tablename TO username;
+```
+
+#### How to revoke privileges to a User?
+To revoke all the privileges from a user, use the following command:
+```sql
+REVOKE ALL PRIVILEGES ON DATABASE dbname FROM username;
+```
